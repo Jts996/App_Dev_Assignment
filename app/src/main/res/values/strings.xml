@@ -2,4 +2,19 @@
     <string name="app_name">Unit_Converter</string>
     <string name="unitSelction">Unit Selection</string>
     <string name="unitConverter">Unit Converter</string>
+
+    <string name="starting_unit">Starting Unit</string>
+    <string name="conversion">Conversion</string>
+    <array name="units_array">
+        <item>Select</item>
+        <item>Meters to Yards</item>
+        <item>Miles to Yards</item>
+        <item>Grams to Ounces</item>
+        <item>Kilograms to Pounds</item>
+    </array>
+
+    <string name="confirm">Confirm Selection</string>
+
+    <string name="selection_button">Confirm Selection</string>
+    <string name="default_selection">Not Selected yet</string>
 </resources>
