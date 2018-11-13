@@ -2,7 +2,6 @@ package uk.ac.stir.cs.unit_converter;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,16 +50,10 @@ public class unitSelctionFragment extends Fragment implements View.OnClickListen
         //Getting the string of the selected conversion
         selected = spinner.getSelectedItem().toString();
 
-        //Beginning a fragment transaction to send the data to the next fragment
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        UnitConverterFragment unitConverterFragment = new UnitConverterFragment();
+        MainActivity mainActivity = new MainActivity();
 
-        //Using Bundle to send the data
-        Bundle bundle = new Bundle();
-        bundle.putString("Selection", selected);
-        unitConverterFragment.setArguments(bundle);
-        transaction.replace(android.R.id.content, unitConverterFragment);
-        transaction.commit();
+        mainActivity.update(selected);
+
 
     }
 }

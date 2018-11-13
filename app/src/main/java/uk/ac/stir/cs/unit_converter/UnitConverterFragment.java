@@ -10,23 +10,28 @@ import android.widget.TextView;
 public class UnitConverterFragment extends Fragment {
 
     private TextView convert;
+    private View unitConversionView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         //inflate the layout for the fragment
-        View view = inflater.inflate(R.layout.unit_conversion_fragment, container, false);
+        unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment, container, false);
 
-        convert = view.findViewById(R.id.textView2);
+;
 
-        Bundle bundle = getArguments();
+        return unitConversionView;
+    }
 
-        if(bundle == null){
-            convert.setText(R.string.default_selection);
-        }else {
-            convert.setText(String.valueOf(bundle.getString("selection")));
-        }
+    @Override
+    public void onResume(){
 
-        return view;
+        convert = unitConversionView.findViewById(R.id.textView2);
+        MainActivity mainActivity = new MainActivity();
+        String conversion = mainActivity.receive();
+
+        convert.setText(conversion);
+
+        super.onResume();
     }
 }

@@ -1,14 +1,18 @@
 package uk.ac.stir.cs.unit_converter;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private String selection = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -46,5 +50,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Method to update the selected conversion type from the
+    // the unit selection fragment
+    public void update(String sel){
+        System.out.println("Units have been selected");
+        selection = sel;
+        System.out.println(selection);
+    }
+
+    // Method to return the selected conversion type form the
+    // unit selection fragment into the the unit conversion fragment
+    public String receive(){
+        System.out.println("Units have been gathered");
+
+        return selection;
     }
 }
