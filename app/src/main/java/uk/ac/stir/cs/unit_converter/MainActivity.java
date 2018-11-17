@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.unitSelction));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.unitSelection));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.unitConverter));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -52,19 +52,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Method to update the selected conversion type from the
-    // the unit selection fragment
-    public void update(String sel){
-        System.out.println("Units have been selected");
-        selection = sel;
-        System.out.println(selection);
-    }
-
-    // Method to return the selected conversion type form the
-    // unit selection fragment into the the unit conversion fragment
-    public String receive(){
-        System.out.println("Units have been gathered");
-
-        return selection;
-    }
 }

@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Unit_Converter</string>
-    <string name="unitSelction">Unit Selection</string>
+    <string name="unitSelection">Unit Selection</string>
     <string name="unitConverter">Unit Converter</string>
 
     <string name="starting_unit">Starting Unit</string>
     <string name="conversion">Conversion</string>
+
+    <!-- Conversions -->
     <array name="units_array">
         <item>Select</item>
         <item>Meters to Yards</item>
@@ -13,8 +15,44 @@
         <item>Kilograms to Pounds</item>
     </array>
 
-    <string name="confirm">Confirm Selection</string>
 
-    <string name="selection_button">Confirm Selection</string>
+    <!-- Button text for the conversion calculator style input -->
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
+    <string name="dot">.</string>
+    <string name="double_zero">00</string>
+    <string name="convert">Go</string>
+    <string name="clear">C</string>
+
+
+
+    <!-- Units -->
+    <string name="meter">Meters:</string>
+    <string name="yard">Yards:</string>
+    <string name="mile">Miles:</string>
+    <string name="gram">Grams:</string>
+    <string name="ounce">Ounces:</string>
+    <string name="kilogram">Kilograms:</string>
+    <string name="pound">Pounds:</string>
+
+    <!-- User input field -->
+    <string name="enter_value">Enter</string>
+
+    <!-- Converted value field -->
+    <string name="waiting">Waiting for conversion value</string>
+
+    <!-- Unit selection button -->
+    <string name="confirm">Confirm Selection</string>
     <string name="default_selection">Not Selected yet</string>
+
+
+
 </resources>

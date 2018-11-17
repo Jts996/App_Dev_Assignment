@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="conversion_butt_BG">#333333</color>
+    <color name="conversion_butt_txt">#C0C6D1</color>
 </resources>

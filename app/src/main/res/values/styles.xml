@@ -6,6 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    
+    <style name="conversionButtons">
+        <item name="android:textSize">40sp</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:textColor">@color/conversion_butt_txt</item>
+        <item name="android:background">@drawable/conversion_butt_round_rect</item>
+        <item name="android:layout_margin">2dp</item>
+
     </style>
 
 </resources>
