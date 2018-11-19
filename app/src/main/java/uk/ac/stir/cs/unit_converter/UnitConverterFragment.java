@@ -13,19 +13,25 @@ import android.widget.Toast;
 
 public class UnitConverterFragment extends Fragment implements View.OnClickListener {
 
+
+    // Conversion values
+    private final double METERS_TO_YARDS = 1.09361;
+    private final double MILES_TO_YARDS = 1760;
+    private final double GRAMS_TO_OUNCES = 28.35;
+    private final double KILOGRAMS_TO_POUNDS = 2.205;
+
+    // User interface elements
     private TextView startUnits, endUnits, converted_value;
     private EditText userInput;
 
-    private ViewGroup container;
-    private LayoutInflater inflater;
-    private Bundle savedInstanceState;
 
-    private int conversion_selected = 0; // Variable to keep track of what conversion was selected
+    // Variable to keep track of what conversion was selected
+    private int conversion_selected = 0;
 
-    private View unitConversionView;
-
+    // flag to detect whether the default text needs to be removed before appending numbers
     private boolean notClicked = true;
 
+    // Conversions list
     private String[] unit_conversions = {"Select", "Meters to Yards", "Miles to Yards", "Grams to Ounces", "Kilograms to Pounds"};
 
 
@@ -48,10 +54,7 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        this.container = container;
-        this.inflater = inflater;
-        this.savedInstanceState = savedInstanceState;
-
+        View unitConversionView;
         //inflate the layout for the fragment
         unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment, container, false);
 
@@ -353,22 +356,22 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
             double converted;
 
             if(conversion_num == 1){
-                converted = (enteredValue * 1.09361); // Converting from Meters to Yards
+                converted = (enteredValue * METERS_TO_YARDS); // Converting from Meters to Yards
 
                 converted_value.setText(String.valueOf(converted));
 
             }else if(conversion_num == 2){
-                converted = (enteredValue * 1760); // Converting from Miles to Yards
+                converted = (enteredValue * MILES_TO_YARDS); // Converting from Miles to Yards
 
                 converted_value.setText(String.valueOf(converted));
 
             }else if(conversion_num == 3){
-                converted = (enteredValue / 28.35); // Converting from Grams to Ounces
+                converted = (enteredValue / GRAMS_TO_OUNCES); // Converting from Grams to Ounces
 
                 converted_value.setText(String.valueOf(converted));
 
             }else if(conversion_num == 4){
-                converted = (enteredValue * 2.205); // Converting from Kilograms to Pounds
+                converted = (enteredValue * KILOGRAMS_TO_POUNDS); // Converting from Kilograms to Pounds
 
                 converted_value.setText(String.valueOf(converted));
 

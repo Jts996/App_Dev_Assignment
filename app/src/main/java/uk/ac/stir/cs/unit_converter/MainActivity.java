@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                unitSelctionFragment selctionFragment = (unitSelctionFragment) adapter.getFragment(0, viewPager);
+                UnitSelectionFragment selectionFragment = (UnitSelectionFragment) adapter.getFragment(0, viewPager);
                 UnitConverterFragment converterFragment = (UnitConverterFragment) adapter.getFragment(1, viewPager);
 
-                String selection = selctionFragment.getSelected();
+                String selection = selectionFragment.getSelected();
 
                 converterFragment.update(selection);
 

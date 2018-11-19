@@ -30,7 +30,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position){
         switch (position){
-            case 0: return new unitSelctionFragment();
+            case 0: return new UnitSelectionFragment();
             case 1: return new UnitConverterFragment();
             default: return null;
         }
