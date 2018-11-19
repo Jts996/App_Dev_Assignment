@@ -1,7 +1,10 @@
 package uk.ac.stir.cs.unit_converter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,29 +12,53 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 public class unitSelctionFragment extends Fragment implements View.OnClickListener{
+
+    private View unitSelectionView;
 
     private Spinner spinner;
     private Button selectionButton;
 
+    // Toast confirmations
+    private Context context;
+    private Toast toastConfirmation;
+
     private String selected;
 
     /**
-     * Creates the view when the tab is selected
+     * Called to have the fragment instantiate its User view
      *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
+     * @param inflater              Object used to inflate any any views in the fragment
+     * @param container             This is the parent view that the fragments UI is attached to too
+     * @param savedInstanceState    The fragment is being reconstructed from a previous saved state
+     *
+     * @return      Returns the inflated view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        View view = inflater.inflate(R.layout.unit_selection_fragment, container, false);
-        selectionButton = view.findViewById(R.id.button);
+        unitSelectionView  = inflater.inflate(R.layout.unit_selection_fragment, container, false);
+        selectionButton = unitSelectionView.findViewById(R.id.select);
         selectionButton.setOnClickListener(this);
+
+        context = unitSelectionView.getContext();
+        toastConfirmation = Toast.makeText(context, getString(R.string.confirm_selection), Toast.LENGTH_LONG);
+
+        spinner(unitSelectionView);
+
+        return unitSelectionView;
+    }
+
+
+    /**
+     * This method is used to fill the spinner object with the desired strings.
+     *
+     * @param view  This is the view object of the fragment
+     */
+    public void spinner(View view){
 
         //Find the spinner element by its id
         spinner = view.findViewById(R.id.spinner);
@@ -43,25 +70,33 @@ public class unitSelctionFragment extends Fragment implements View.OnClickListen
         //Apply this adapter to the spinner
         spinner.setAdapter(adapter);
 
-        return view;
     }
 
     @Override
     public void onClick(View v){
         //Getting the string of the selected conversion
-        selected = spinner.getSelectedItem().toString();
+        String selection = spinner.getSelectedItem().toString();
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        UnitConverterFragment converterFragment = new UnitConverterFragment();
-
-        //Use bundle to send selection
-        Bundle bundle = new Bundle();
-        bundle.putString("selection", selected);
-        converterFragment.setArguments(bundle); // Selection being sent to converter fragment
-
-        transaction.replace(android.R.id.content, converterFragment);
-        transaction.commit();
-
-
+        setSelected(selection);
     }
+
+    /**
+     * Get the conversion selected by the user
+     *
+     * @return      Return this selection
+     */
+    public String getSelected(){
+        return selected;
+    }
+
+    /**
+     * Set the conversion selected by the user
+     *
+     * @param selection     The selection from the spinner
+     */
+    public void setSelected(String selection){
+        selected = selection;
+        toastConfirmation.show();
+    }
+
 }

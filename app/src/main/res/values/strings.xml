@@ -52,7 +52,11 @@
     <!-- Unit selection button -->
     <string name="confirm">Confirm Selection</string>
     <string name="default_selection">Not Selected yet</string>
-
+    <string name="zero_warning">Please do not start value with zero</string>
+    <string name="converion_not_selected_warning">You have not yet selected a conversion</string>
+    <string name="no_value_entered_warning">No value has been entered for conversion</string>
+    <string name="empty_string" />
+    <string name="confirm_selection">Conversion Selected, now swipe left to convert!!</string>
 
 
 </resources>

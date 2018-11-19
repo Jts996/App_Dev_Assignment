@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/input_section"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_startUnits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="@string/default_selection"
-        android:textAlignment="textStart"
-        android:layout_marginTop="70dp"
-        />
-
-
-    <EditText
-        android:id="@+id/editText"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="textEnd"
-        android:text="@string/enter_value"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_endUnits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="@string/default_selection"
-        android:textAlignment="textStart"
-        android:layout_marginTop="2dp"/>
 
-    <TextView
-        android:id="@+id/tv_convertedValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="@string/waiting"
-        android:textAlignment="textEnd"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="0dp"/>
+        <TextView
+            android:id="@+id/tv_startUnits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/default_selection"
+            android:textAlignment="textStart"
+            android:layout_marginTop="70dp"/>
 
-</LinearLayout>
+
+        <EditText
+            android:id="@+id/entryValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAlignment="textEnd"
+            android:text="@string/enter_value"/>
+
+        <TextView
+            android:id="@+id/tv_endUnits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/default_selection"
+            android:textAlignment="textStart"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/tv_convertedValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/waiting"
+            android:textAlignment="textEnd"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="0dp"/>
+
+    </LinearLayout>
+</FrameLayout>

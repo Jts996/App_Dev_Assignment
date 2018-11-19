@@ -1,11 +1,11 @@
 package uk.ac.stir.cs.unit_converter;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 
@@ -34,9 +34,17 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+
+                unitSelctionFragment selctionFragment = (unitSelctionFragment) adapter.getFragment(0, viewPager);
+                UnitConverterFragment converterFragment = (UnitConverterFragment) adapter.getFragment(1, viewPager);
+
+                String selection = selctionFragment.getSelected();
+
+                converterFragment.update(selection);
+
             }
 
             @Override
@@ -49,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
 }
