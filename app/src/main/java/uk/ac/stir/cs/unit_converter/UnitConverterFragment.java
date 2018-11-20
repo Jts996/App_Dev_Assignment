@@ -2,6 +2,7 @@ package uk.ac.stir.cs.unit_converter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,13 +29,15 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
 
     // Variable to keep track of what conversion was selected
     private int conversion_selected;
-    private int category_selected;
+
+    // Layout inflaters and container
+    private LayoutInflater inflater;
+    private ViewGroup container;
 
     // flag to detect whether the default text needs to be removed before appending numbers
     private boolean notClicked = true;
 
     // Conversions list
-    private String[] conversion_categories = {"Weight", "Length"};
     private String[] conversion_units = {"Select", "Meters to Yards", "Miles to Yards", "Grams to Ounces", "Kilograms to Pounds"};
 
 
@@ -46,19 +49,24 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
 
 
     /**
-     * Called to have the fragment instantiate its User view
+     * Method to initialise the user view
      *
-     * @param inflater           Object used to inflate any any views in the fragment
-     * @param container          This is the parent view that the fragments UI is attached to too
-     * @param savedInstanceState The fragment is being reconstructed from a previous saved state
-     * @return Returns the inflated view
+     * @return      The view
      */
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View initialiseUserInterface(){
 
         View unitConversionView;
-        //inflate the layout for the fragment
-        unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment, container, false);
+
+        int orientation = getActivity().getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT){
+            //inflate the layout for the fragment
+            unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment, container, false);
+
+        }else{
+            unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment_horizontal, container, false);
+        }
+
 
         // Toast warnings
         context = unitConversionView.getContext();
@@ -123,8 +131,56 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
         clearButt.setOnClickListener(this);
         convertButton.setOnClickListener(this);
 
-
         return unitConversionView;
+
+    }
+
+
+    /**
+     * Called to have the fragment instantiate its User view
+     *
+     * @param inflater           Object used to inflate any any views in the fragment
+     * @param container          This is the parent view that the fragments UI is attached to too
+     * @param savedInstanceState The fragment is being reconstructed from a previous saved state
+     * @return Returns the inflated view
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        this.inflater = inflater;
+        this.container = container;
+
+
+        return initialiseUserInterface();
+    }
+
+    /**
+     * Overriden to handle the switching between orientations
+     *
+     * @param newConfig     This is the new configuration for the layout
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        System.out.println("Here");
+
+        String preserveStartUnits = startUnits.getText().toString();
+        String preserveEndUnits = endUnits.getText().toString();
+        String preserveUserInput = userInput.getText().toString();
+        String preserveConverted = converted_value.getText().toString();
+
+
+        View view = initialiseUserInterface();
+
+        startUnits.setText(preserveStartUnits);
+        endUnits.setText(preserveEndUnits);
+        userInput.setText(preserveUserInput);
+        converted_value.setText(preserveConverted);
+
+        container.postInvalidate();
+        container.addView(view);
+
     }
 
 
@@ -136,46 +192,55 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
      */
     public void update(String units) {
 
+        try{
+            if (units.equals(conversion_units[1])) {
 
-        if (units.equals(conversion_units[1])) {
+                startUnits.setText(R.string.meter);
+                endUnits.setText(R.string.yard);
 
-            startUnits.setText(R.string.meter);
-            endUnits.setText(R.string.yard);
+                userInput.setText(getText(R.string.enter_value));
+                converted_value.setText(R.string.waiting);
 
-            userInput.setText(getText(R.string.enter_value));
-            converted_value.setText(R.string.waiting);
+                conversion_selected = 1;
+            } else if (units.equals(conversion_units[2])) {
 
-            conversion_selected = 1;
-        } else if (units.equals(conversion_units[2])) {
+                startUnits.setText(R.string.mile);
+                endUnits.setText(R.string.yard);
 
-            startUnits.setText(R.string.mile);
-            endUnits.setText(R.string.yard);
+                userInput.setText(getText(R.string.enter_value));
+                converted_value.setText(R.string.waiting);
 
-            userInput.setText(getText(R.string.enter_value));
-            converted_value.setText(R.string.waiting);
+                conversion_selected = 2;
+            }else if (units.equals(conversion_units[3])) {
 
-            conversion_selected = 2;
-        }else if (units.equals(conversion_units[3])) {
+                startUnits.setText(R.string.gram);
+                endUnits.setText(R.string.ounce);
 
-            startUnits.setText(R.string.gram);
-            endUnits.setText(R.string.ounce);
+                userInput.setText(getText(R.string.enter_value));
+                converted_value.setText(R.string.waiting);
 
-            userInput.setText(getText(R.string.enter_value));
-            converted_value.setText(R.string.waiting);
+                conversion_selected = 3;
+            } else if (units.equals(conversion_units[4])){
 
-            conversion_selected = 3;
-        } else if (units.equals(conversion_units[4])){
+                startUnits.setText(R.string.kilogram);
+                endUnits.setText(R.string.pound);
 
-            startUnits.setText(R.string.kilogram);
-            endUnits.setText(R.string.pound);
+                userInput.setText(getText(R.string.enter_value));
+                converted_value.setText(R.string.waiting);
 
-            userInput.setText(getText(R.string.enter_value));
-            converted_value.setText(R.string.waiting);
+                conversion_selected = 4;
 
-            conversion_selected = 4;
+            } else {
 
-        } else {
+                startUnits.setText(R.string.default_selection);
+                endUnits.setText(R.string.default_selection);
 
+                userInput.setText(getText(R.string.enter_value));
+                converted_value.setText(R.string.waiting);
+
+                conversion_selected = 0;
+            }
+        }catch (NullPointerException e){
             startUnits.setText(R.string.default_selection);
             endUnits.setText(R.string.default_selection);
 
@@ -184,6 +249,7 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
 
             conversion_selected = 0;
         }
+
     }
 
 
@@ -328,7 +394,7 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
 
                 case R.id.convert: // Call the conversion method to carry out the required calculation
 
-                    conversion(category_selected, conversion_selected);
+                    conversion(conversion_selected);
 
                     notClicked = true;
 
@@ -346,12 +412,12 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
          * @param conversion_num    This number relates to the set conversion type the user wants to conduct
          */
         @SuppressLint("DefaultLocale")
-        public void conversion (int category_num, int unit_num){
+        public void conversion (int unit_num){
 
             String input = userInput.getText().toString();
 
 
-            if (category_num == 0 && unit_num == 0) {
+            if (unit_num == 0) {
                 toastNoConversionSelected.show(); // If 0 user has not selected a conversion type, output a toast warning
             } else if (input.equals(context.getString(R.string.enter_value)) || input.equals(context.getString(R.string.empty_string))) {
 

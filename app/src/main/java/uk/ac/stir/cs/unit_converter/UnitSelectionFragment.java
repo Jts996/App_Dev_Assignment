@@ -1,5 +1,6 @@
 package uk.ac.stir.cs.unit_converter;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,9 +22,47 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     // Position of selection in categories
     private int catPos;
 
+    // Layout inflaters and container
+    private LayoutInflater inflater;
+    private ViewGroup container;
+
+
     // Conversion selected by user
     private String selectedUnits;
-    private String selectedCategory;
+
+
+    /**
+     * Method to initialise the user view
+     *
+     * @return      The view
+     */
+    public View initialiseUserInterface(){
+
+        View unitSelectionView;
+
+        int orientation = getActivity().getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT){
+            //inflate the layout for the fragment
+            unitSelectionView = inflater.inflate(R.layout.unit_selection_fragment, container, false);
+
+        }else{
+            unitSelectionView = inflater.inflate(R.layout.unit_selection_fragment_horizontal, container, false);
+        }
+
+
+        selectionButton = unitSelectionView.findViewById(R.id.select);
+        selectionButton.setOnClickListener(this);
+        spinnerUnits = unitSelectionView.findViewById(R.id.unit_spinner);
+        spinnerCatergories = unitSelectionView.findViewById(R.id.category_spinner);
+        spinnerCatergories.setOnItemSelectedListener(this);
+
+        spinnerCategory();
+
+        return unitSelectionView;
+
+    }
+
 
     /**
      * Called to have the fragment instantiate its User view
@@ -36,30 +75,42 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View unitSelectionView;
+        this.inflater = inflater;
+        this.container = container;
 
-        unitSelectionView = inflater.inflate(R.layout.unit_selection_fragment, container, false);
-        selectionButton = unitSelectionView.findViewById(R.id.select);
-        selectionButton.setOnClickListener(this);
-        spinnerUnits = unitSelectionView.findViewById(R.id.unit_spinner);
-        spinnerCatergories = unitSelectionView.findViewById(R.id.category_spinner);
-        spinnerCatergories.setOnItemSelectedListener(this);
 
-        spinner(unitSelectionView);
-
-        return unitSelectionView;
+        return initialiseUserInterface();
     }
 
-
     /**
-     * This method is used to fill the spinner object with the desired strings.
+     * Overriden to handle the switching between orientations
      *
-     * @param view This is the view object of the fragment
+     * @param newConfig     This is the new configuration for the layout
      */
-    public void spinner(View view) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
-        // Find the categories spinner element by its id
-        spinnerCatergories = view.findViewById(R.id.category_spinner);
+
+        int preserveSpinnerCategories = spinnerCatergories.getSelectedItemPosition();
+        int preserveSpinnerUnits = spinnerUnits.getSelectedItemPosition();
+
+        View view = initialiseUserInterface();
+
+        spinnerCatergories.setSelection(preserveSpinnerCategories);
+        spinnerUnits.setSelection(preserveSpinnerUnits);
+
+        container.postInvalidate();
+        container.addView(view);
+
+    }
+
+        /**
+         * This method is used to fill the category spinner object with the desired strings.
+         *
+         */
+    public void spinnerCategory() {
+
         // Create an ArrayAdapter using the string array and the spinner
         ArrayAdapter<CharSequence> adapterCategory = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
                 R.array.unit_categories, android.R.layout.simple_spinner_item);
@@ -76,8 +127,6 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     public void onItemSelected(AdapterView<?> parent, View v, int position,
                                long id) {
 
-        // Find the Units spinner element by its id
-        spinnerCatergories = v.findViewById(R.id.category_spinner);
         String cat;
         cat = (String) parent.getItemAtPosition(position);
         if(cat.equals("Select")){
@@ -148,6 +197,10 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     }
 
 
+    /**
+     * method to populate the units spinner based on the selection in the categories spinner
+     *
+     */
     public void populateUnits() {
 
         if(catPos == 0){
