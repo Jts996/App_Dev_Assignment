@@ -4,15 +4,21 @@
     <string name="unitConverter">Unit Converter</string>
 
     <string name="starting_unit">Starting Unit</string>
-    <string name="conversion">Conversion</string>
 
     <!-- Conversions -->
-    <array name="units_array">
+    <string name="units">Units:</string>
+    <array name="weight_units_array">
+        <item>Select</item>
+        <item>Grams to Ounces</item>
+        <item>Kilograms to Pounds</item>
+    </array>
+    <array name="length_units_array">
         <item>Select</item>
         <item>Meters to Yards</item>
         <item>Miles to Yards</item>
-        <item>Grams to Ounces</item>
-        <item>Kilograms to Pounds</item>
+    </array>
+    <array name="select_cat">
+        <item>Select Category</item>
     </array>
 
 
@@ -33,6 +39,15 @@
     <string name="clear">C</string>
 
 
+    <!-- Categories -->
+    <string name="category">Category:</string>
+    <array name="unit_categories">
+        <item>Select</item>
+        <item>Weight</item>
+        <item>Length</item>
+    </array>
+
+
 
     <!-- Units -->
     <string name="meter">Meters:</string>
@@ -50,7 +65,7 @@
     <string name="waiting">Waiting for conversion value</string>
 
     <!-- Unit selection button -->
-    <string name="confirm">Confirm Selection</string>
+    <string name="confirm">Confirm</string>
     <string name="default_selection">Not Selected yet</string>
     <string name="zero_warning">Please do not start value with zero</string>
     <string name="converion_not_selected_warning">You have not yet selected a conversion</string>

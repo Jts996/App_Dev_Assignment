@@ -6,4 +6,5 @@
 
     <color name="conversion_butt_BG">#333333</color>
     <color name="conversion_butt_txt">#C0C6D1</color>
+    <color name="textView_colour">#1D2027</color>
 </resources>

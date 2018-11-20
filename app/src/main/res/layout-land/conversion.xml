@@ -14,32 +14,27 @@
             android:id="@+id/tv_startUnits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/textView_colour"
-            android:textStyle="bold"
+            android:textSize="15sp"
             android:text="@string/default_selection"
             android:textAlignment="textStart"
-            android:layout_marginTop="70dp"/>
+            android:layout_marginTop="55dp"/>
 
 
         <EditText
             android:id="@+id/entryValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="5"
             android:inputType="textPersonName"
             android:textAlignment="textEnd"
-            android:textColor="@color/textView_colour"
             android:text="@string/enter_value"/>
 
         <TextView
             android:id="@+id/tv_endUnits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:text="@string/default_selection"
-            android:textColor="@color/textView_colour"
-            android:textStyle="bold"
             android:textAlignment="textStart"
             android:layout_marginTop="2dp"/>
 
@@ -47,9 +42,8 @@
             android:id="@+id/tv_convertedValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="10sp"
             android:text="@string/waiting"
-            android:textColor="@color/textView_colour"
             android:textAlignment="textEnd"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="0dp"/>

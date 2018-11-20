@@ -17,6 +17,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     /**
      * Constructor method
+     *
      * @param fragmentManager
      * @param numOfTabs
      */
@@ -43,6 +44,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     }
 
     public Fragment getFragment(int index, ViewPager viewPager){
+
 
         return (Fragment) instantiateItem(viewPager, index);
     }

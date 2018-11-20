@@ -10,14 +10,25 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    
-    <style name="conversionButtons">
+
+
+    <!-- Style for the buttons in a portrait orientation -->
+    <style name="conversionButtonsPortrait">
         <item name="android:textSize">40sp</item>
         <item name="android:minHeight">80dp</item>
         <item name="android:textColor">@color/conversion_butt_txt</item>
         <item name="android:background">@drawable/conversion_butt_round_rect</item>
         <item name="android:layout_margin">2dp</item>
 
+    </style>
+
+    <!-- Style for the buttons in a horizontal orientation -->
+    <style name="conversionButtonsHorizontal">
+        <item name="android:textSize">20sp</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:textColor">@color/conversion_butt_txt</item>
+        <item name="android:background">@drawable/conversion_butt_round_rect</item>
+        <item name="android:layout_margin">2dp</item>
     </style>
 
 </resources>

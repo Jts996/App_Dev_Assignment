@@ -1,5 +1,6 @@
 package uk.ac.stir.cs.unit_converter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,13 +27,15 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
 
 
     // Variable to keep track of what conversion was selected
-    private int conversion_selected = 0;
+    private int conversion_selected;
+    private int category_selected;
 
     // flag to detect whether the default text needs to be removed before appending numbers
     private boolean notClicked = true;
 
     // Conversions list
-    private String[] unit_conversions = {"Select", "Meters to Yards", "Miles to Yards", "Grams to Ounces", "Kilograms to Pounds"};
+    private String[] conversion_categories = {"Weight", "Length"};
+    private String[] conversion_units = {"Select", "Meters to Yards", "Miles to Yards", "Grams to Ounces", "Kilograms to Pounds"};
 
 
     // Toast warnings
@@ -45,14 +48,13 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
     /**
      * Called to have the fragment instantiate its User view
      *
-     * @param inflater              Object used to inflate any any views in the fragment
-     * @param container             This is the parent view that the fragments UI is attached to too
-     * @param savedInstanceState    The fragment is being reconstructed from a previous saved state
-     *
-     * @return      Returns the inflated view
+     * @param inflater           Object used to inflate any any views in the fragment
+     * @param container          This is the parent view that the fragments UI is attached to too
+     * @param savedInstanceState The fragment is being reconstructed from a previous saved state
+     * @return Returns the inflated view
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View unitConversionView;
         //inflate the layout for the fragment
@@ -96,7 +98,7 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
         fourButt = unitConversionView.findViewById(R.id.four);
         fiveButt = unitConversionView.findViewById(R.id.five);
         sixButt = unitConversionView.findViewById(R.id.six);
-        sevenButton= unitConversionView.findViewById(R.id.seven);
+        sevenButton = unitConversionView.findViewById(R.id.seven);
         eightButt = unitConversionView.findViewById(R.id.eight);
         nineButt = unitConversionView.findViewById(R.id.nine);
         zeroButt = unitConversionView.findViewById(R.id.zero);
@@ -127,23 +129,15 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
 
 
     /**
-     * Method to update the TextViews with the units selection for conversion and to
+     * Method to update the TextViews with the units category and units selection for conversion and to
      * set the "conversion_selected" to the corresponding calculation
      *
-     * @param selection     This is the conversion that was selected by the user in the unit Selection fragment
+     * @param units  This is the conversion that was selected by the user in the unit Selection fragment
      */
-    public void update(String selection) {
-        if(selection.equals(unit_conversions[0])){
+    public void update(String units) {
 
-            startUnits.setText(R.string.default_selection);
-            endUnits.setText(R.string.default_selection);
 
-            userInput.setText(getText(R.string.enter_value));
-            converted_value.setText(R.string.waiting);
-
-            conversion_selected= 0;
-
-        }else if(selection.equals(unit_conversions[1])){
+        if (units.equals(conversion_units[1])) {
 
             startUnits.setText(R.string.meter);
             endUnits.setText(R.string.yard);
@@ -152,8 +146,7 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
             converted_value.setText(R.string.waiting);
 
             conversion_selected = 1;
-
-        }else if(selection.equals(unit_conversions[2])){
+        } else if (units.equals(conversion_units[2])) {
 
             startUnits.setText(R.string.mile);
             endUnits.setText(R.string.yard);
@@ -162,8 +155,7 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
             converted_value.setText(R.string.waiting);
 
             conversion_selected = 2;
-
-        }else if(selection.equals(unit_conversions[3])){
+        }else if (units.equals(conversion_units[3])) {
 
             startUnits.setText(R.string.gram);
             endUnits.setText(R.string.ounce);
@@ -172,211 +164,224 @@ public class UnitConverterFragment extends Fragment implements View.OnClickListe
             converted_value.setText(R.string.waiting);
 
             conversion_selected = 3;
-
-        }else{
+        } else if (units.equals(conversion_units[4])){
 
             startUnits.setText(R.string.kilogram);
             endUnits.setText(R.string.pound);
+
+            userInput.setText(getText(R.string.enter_value));
+            converted_value.setText(R.string.waiting);
+
             conversion_selected = 4;
 
+        } else {
+
+            startUnits.setText(R.string.default_selection);
+            endUnits.setText(R.string.default_selection);
+
+            userInput.setText(getText(R.string.enter_value));
+            converted_value.setText(R.string.waiting);
+
+            conversion_selected = 0;
         }
     }
 
 
-    /**
-     * To handle what happens when a button is clicked
-     *
-     * The if statement checks if this is the first button button click. This is done so that the program can decide
-     * whether or not the default text value needs to be set to the number or just appended onto the end.
-     *
-     * @param v  This is the view object of the fragment
-     */
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()){
+        /**
+         * To handle what happens when a button is clicked
+         *
+         * The if statement checks if this is the first button button click. This is done so that the program can decide
+         * whether or not the default text value needs to be set to the number or just appended onto the end.
+         *
+         * @param v  This is the view object of the fragment
+         */
+        @Override
+        public void onClick (View v){
 
-            case R.id.one:
-                if(notClicked){
-                    userInput.setText("1");
-                    notClicked = false;
-                }else {
-                    userInput.append("1");
-                }
+            switch (v.getId()) {
 
-                break;
+                case R.id.one:
+                    if (notClicked) {
+                        userInput.setText("1");
+                        notClicked = false;
+                    } else {
+                        userInput.append("1");
+                    }
 
-            case R.id.two:
-                if(notClicked){
-                    userInput.setText("2");
-                    notClicked = false;
-                }else {
-                    userInput.append("2");
-                }
+                    break;
 
-                break;
+                case R.id.two:
+                    if (notClicked) {
+                        userInput.setText("2");
+                        notClicked = false;
+                    } else {
+                        userInput.append("2");
+                    }
 
-            case R.id.three:
-                if(notClicked){
-                    userInput.setText("3");
-                    notClicked = false;
-                }else{
-                    userInput.append("3");
-                }
+                    break;
 
-                break;
+                case R.id.three:
+                    if (notClicked) {
+                        userInput.setText("3");
+                        notClicked = false;
+                    } else {
+                        userInput.append("3");
+                    }
 
-            case R.id.four:
-                if(notClicked){
-                    userInput.setText("4");
-                    notClicked = false;
-                }else{
-                    userInput.append("4");
-                }
+                    break;
 
-                break;
+                case R.id.four:
+                    if (notClicked) {
+                        userInput.setText("4");
+                        notClicked = false;
+                    } else {
+                        userInput.append("4");
+                    }
 
-            case R.id.five:
-                if(notClicked){
-                    userInput.setText("5");
-                    notClicked = false;
-                }else {
-                    userInput.append("5");
-                }
+                    break;
 
-                break;
+                case R.id.five:
+                    if (notClicked) {
+                        userInput.setText("5");
+                        notClicked = false;
+                    } else {
+                        userInput.append("5");
+                    }
 
-            case R.id.six:
-                if(notClicked){
-                    userInput.setText("6");
-                    notClicked = false;
-                }
-                else {
-                    userInput.append("6");
-                }
+                    break;
 
-                break;
+                case R.id.six:
+                    if (notClicked) {
+                        userInput.setText("6");
+                        notClicked = false;
+                    } else {
+                        userInput.append("6");
+                    }
 
-            case R.id.seven:
-                if(notClicked){
-                    userInput.setText("7");
-                    notClicked = false;
-                }else {
-                    userInput.append("7");
-                }
+                    break;
 
-                break;
+                case R.id.seven:
+                    if (notClicked) {
+                        userInput.setText("7");
+                        notClicked = false;
+                    } else {
+                        userInput.append("7");
+                    }
 
-            case R.id.eight:
-                if(notClicked){
-                    userInput.setText("8");
-                    notClicked = false;
-                }else {
-                    userInput.append("8");
-                }
+                    break;
 
-                break;
+                case R.id.eight:
+                    if (notClicked) {
+                        userInput.setText("8");
+                        notClicked = false;
+                    } else {
+                        userInput.append("8");
+                    }
 
-            case R.id.nine:
-                if(notClicked){
-                    userInput.setText("9");
-                    notClicked = false;
-                }else {
-                    userInput.append("9");
-                }
+                    break;
 
-                break;
+                case R.id.nine:
+                    if (notClicked) {
+                        userInput.setText("9");
+                        notClicked = false;
+                    } else {
+                        userInput.append("9");
+                    }
 
-            case R.id.zero:
-                if(notClicked){
-                    toastZero.show(); // Informing user to not start a number with zero
-                }else{
-                    userInput.append("0");
-                }
+                    break;
 
-                break;
+                case R.id.zero:
+                    if (notClicked) {
+                        toastZero.show(); // Informing user to not start a number with zero
+                    } else {
+                        userInput.append("0");
+                    }
 
-            case R.id.dot:
-                if(notClicked){
-                    userInput.setText(".");
-                }else{
-                    userInput.append(".");
-                }
+                    break;
 
-                break;
+                case R.id.dot:
+                    if (notClicked) {
+                        userInput.setText(".");
+                    } else {
+                        userInput.append(".");
+                    }
 
-            case R.id.doubleZero:
-                if(notClicked){
-                    toastZero.show(); // Informing user to not start a number with zero
-                }else{
-                    userInput.append("00");
-                }
+                    break;
 
-                break;
+                case R.id.doubleZero:
+                    if (notClicked) {
+                        toastZero.show(); // Informing user to not start a number with zero
+                    } else {
+                        userInput.append("00");
+                    }
 
-            case R.id.clear: // Reset all input area and the conversion area back to default
-                userInput.setText(getText(R.string.enter_value));
-                converted_value.setText(R.string.waiting);
+                    break;
 
-                notClicked = true;
+                case R.id.clear: // Reset all input area and the conversion area back to default
+                    userInput.setText(getText(R.string.enter_value));
+                    converted_value.setText(R.string.waiting);
 
-                break;
+                    notClicked = true;
 
-            case R.id.convert: // Call the conversion method to carry out the required calculation
+                    break;
 
-                conversion(conversion_selected);
+                case R.id.convert: // Call the conversion method to carry out the required calculation
 
-                notClicked = true;
+                    conversion(category_selected, conversion_selected);
 
-                break;
+                    notClicked = true;
 
-            default:
-                break;
-        }
-    }
+                    break;
 
-
-    /**
-     * Method to handle the conversion calculations.
-     *
-     * @param conversion_num    This number relates to the set conversion type the user wants to conduct
-     */
-    public void conversion(int conversion_num){
-        String input = userInput.getText().toString();
-
-        if(conversion_num == 0) {
-            toastNoConversionSelected.show(); // If 0 user has not selected a conversion type, output a toast warning
-        }
-        else if (input.equals(context.getString(R.string.enter_value)) || input.equals(context.getString(R.string.empty_string))) {
-
-            toastNoValueEntered.show(); // If entry field empty or default text, user has not input any value, output toast warning
-        }
-        else{
-            int enteredValue = Integer.parseInt(input);
-            double converted;
-
-            if(conversion_num == 1){
-                converted = (enteredValue * METERS_TO_YARDS); // Converting from Meters to Yards
-
-                converted_value.setText(String.valueOf(converted));
-
-            }else if(conversion_num == 2){
-                converted = (enteredValue * MILES_TO_YARDS); // Converting from Miles to Yards
-
-                converted_value.setText(String.valueOf(converted));
-
-            }else if(conversion_num == 3){
-                converted = (enteredValue / GRAMS_TO_OUNCES); // Converting from Grams to Ounces
-
-                converted_value.setText(String.valueOf(converted));
-
-            }else if(conversion_num == 4){
-                converted = (enteredValue * KILOGRAMS_TO_POUNDS); // Converting from Kilograms to Pounds
-
-                converted_value.setText(String.valueOf(converted));
-
+                default:
+                    break;
             }
         }
 
-    }
+
+        /**
+         * Method to handle the conversion calculations.
+         *
+         * @param conversion_num    This number relates to the set conversion type the user wants to conduct
+         */
+        @SuppressLint("DefaultLocale")
+        public void conversion (int category_num, int unit_num){
+
+            String input = userInput.getText().toString();
+
+
+            if (category_num == 0 && unit_num == 0) {
+                toastNoConversionSelected.show(); // If 0 user has not selected a conversion type, output a toast warning
+            } else if (input.equals(context.getString(R.string.enter_value)) || input.equals(context.getString(R.string.empty_string))) {
+
+                toastNoValueEntered.show(); // If entry field empty or default text, user has not input any value, output toast warning
+            } else {
+                double enteredValue = Double.parseDouble(input);
+                double converted;
+                if (unit_num == 3) {
+                    converted = (enteredValue / GRAMS_TO_OUNCES); // Converting from Grams to Ounces
+
+                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
+
+                } else if (unit_num == 4) {
+                    converted = (enteredValue * KILOGRAMS_TO_POUNDS); // Converting from Kilograms to Pounds
+
+                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
+
+                } else if (unit_num == 1) {
+                    converted = (enteredValue * METERS_TO_YARDS); // Converting from Meters to Yards
+
+                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
+
+                } else if (unit_num == 2) {
+                    converted = (enteredValue * MILES_TO_YARDS); // Converting from Miles to Yards
+
+                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
+                }
+
+            }
+
+        }
 }
+

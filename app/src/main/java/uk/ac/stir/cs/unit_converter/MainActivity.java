@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
                 UnitSelectionFragment selectionFragment = (UnitSelectionFragment) adapter.getFragment(0, viewPager);
                 UnitConverterFragment converterFragment = (UnitConverterFragment) adapter.getFragment(1, viewPager);
 
-                String selection = selectionFragment.getSelected();
+                String selectionUnits = selectionFragment.getSelectedUnits();
 
-                converterFragment.update(selection);
+                converterFragment.update(selectionUnits);
 
             }
 
