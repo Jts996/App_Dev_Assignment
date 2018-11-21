@@ -6,21 +6,37 @@
     <string name="starting_unit">Starting Unit</string>
 
     <!-- Conversions -->
-    <string name="units">Units:</string>
+    <string name="startingUnits">Starting Units:</string>
+    <string name="endUnits">End Units:</string>
     <array name="weight_units_array">
         <item>Select</item>
-        <item>Grams to Ounces</item>
-        <item>Kilograms to Pounds</item>
+        <item>Grams</item>
+        <item>Ounces</item>
+        <item>Kilograms</item>
+        <item>Pounds</item>
     </array>
-    <array name="length_units_array">
+    <array name="distance_units_array">
         <item>Select</item>
-        <item>Meters to Yards</item>
-        <item>Miles to Yards</item>
+        <item>Meters</item>
+        <item>Miles</item>
+        <item>Yards</item>
     </array>
-    <array name="select_cat">
-        <item>Select Category</item>
+    <array name="speed_units_array">
+        <item>Select</item>
+        <item>Meters per Second</item>
+        <item>Miles per Hour</item>
+        <item>Kilometers per Hour</item>
     </array>
 
+
+    <!-- Categories -->
+    <string name="category">Category:</string>
+    <array name="unit_categories">
+        <item>Select</item>
+        <item>Weight</item>
+        <item>Distance</item>
+        <item>Speed</item>
+    </array>
 
     <!-- Button text for the conversion calculator style input -->
     <string name="one">1</string>
@@ -38,17 +54,6 @@
     <string name="convert">Go</string>
     <string name="clear">C</string>
 
-
-    <!-- Categories -->
-    <string name="category">Category:</string>
-    <array name="unit_categories">
-        <item>Select</item>
-        <item>Weight</item>
-        <item>Length</item>
-    </array>
-
-
-
     <!-- Units -->
     <string name="meter">Meters:</string>
     <string name="yard">Yards:</string>
@@ -57,6 +62,9 @@
     <string name="ounce">Ounces:</string>
     <string name="kilogram">Kilograms:</string>
     <string name="pound">Pounds:</string>
+    <string name="milesPerHour">Miles per Hour:</string>
+    <string name="metersPerSecond">Meters per Second</string>
+    <string name="kilometersPerHour">Kilometers per Hour</string>
 
     <!-- User input field -->
     <string name="enter_value">Enter</string>
@@ -68,7 +76,7 @@
     <string name="confirm">Confirm</string>
     <string name="default_selection">Not Selected yet</string>
     <string name="zero_warning">Please do not start value with zero</string>
-    <string name="converion_not_selected_warning">You have not yet selected a conversion</string>
+    <string name="conversion_not_selected_warning">You have not yet selected a conversion</string>
     <string name="no_value_entered_warning">No value has been entered for conversion</string>
     <string name="empty_string" />
     <string name="confirm_selection">Conversion Selected, now swipe left to convert!!</string>

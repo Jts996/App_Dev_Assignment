@@ -31,11 +31,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/units"
+        android:id="@+id/firstUnits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/category"
-        android:layout_marginStart="90dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
@@ -43,13 +43,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:text="@string/units"
+            android:text="@string/startingUnits"
             android:textColor="@color/textView_colour"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/unit_spinner"
+            android:id="@+id/first_unit_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstUnits"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/endUnits"
+            android:textColor="@color/textView_colour"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/second_unit_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"/>
@@ -60,7 +86,7 @@
         android:id="@+id/select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/units"
+        android:layout_below="@+id/secondUnits"
         android:background="@drawable/conversion_butt_round_rect"
         android:textColor="@color/conversion_butt_txt"
         android:layout_marginTop="10dp"

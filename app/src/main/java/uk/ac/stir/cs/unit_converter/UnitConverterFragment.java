@@ -1,453 +1,1 @@
-package uk.ac.stir.cs.unit_converter;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-public class UnitConverterFragment extends Fragment implements View.OnClickListener {
-
-
-    // Conversion values
-    private final double METERS_TO_YARDS = 1.09361;
-    private final double MILES_TO_YARDS = 1760;
-    private final double GRAMS_TO_OUNCES = 28.35;
-    private final double KILOGRAMS_TO_POUNDS = 2.205;
-
-    // User interface elements
-    private TextView startUnits, endUnits, converted_value;
-    private EditText userInput;
-
-
-    // Variable to keep track of what conversion was selected
-    private int conversion_selected;
-
-    // Layout inflaters and container
-    private LayoutInflater inflater;
-    private ViewGroup container;
-
-    // flag to detect whether the default text needs to be removed before appending numbers
-    private boolean notClicked = true;
-
-    // Conversions list
-    private String[] conversion_units = {"Select", "Meters to Yards", "Miles to Yards", "Grams to Ounces", "Kilograms to Pounds"};
-
-
-    // Toast warnings
-    private Context context;
-    private Toast toastZero;
-    private Toast toastNoConversionSelected;
-    private Toast toastNoValueEntered;
-
-
-    /**
-     * Method to initialise the user view
-     *
-     * @return      The view
-     */
-    public View initialiseUserInterface(){
-
-        View unitConversionView;
-
-        int orientation = getActivity().getResources().getConfiguration().orientation;
-
-        if (orientation == Configuration.ORIENTATION_PORTRAIT){
-            //inflate the layout for the fragment
-            unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment, container, false);
-
-        }else{
-            unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment_horizontal, container, false);
-        }
-
-
-        // Toast warnings
-        context = unitConversionView.getContext();
-        toastZero = Toast.makeText(context, getString(R.string.zero_warning), Toast.LENGTH_SHORT);
-        toastNoConversionSelected = Toast.makeText(context, getString(R.string.converion_not_selected_warning), Toast.LENGTH_SHORT);
-        toastNoValueEntered = Toast.makeText(context, getString(R.string.no_value_entered_warning), Toast.LENGTH_SHORT);
-
-
-        // TextViews fields
-        startUnits = unitConversionView.findViewById(R.id.tv_startUnits);
-        endUnits = unitConversionView.findViewById(R.id.tv_endUnits);
-        converted_value = unitConversionView.findViewById(R.id.tv_convertedValue);
-
-        // EditText fields
-        userInput = unitConversionView.findViewById(R.id.entryValue);
-
-        // Buttons
-        Button oneButt;
-        Button twobutt;
-        Button threeButt;
-        Button fourButt;
-        Button fiveButt;
-        Button sixButt;
-        Button sevenButton;
-        Button eightButt;
-        Button nineButt;
-        Button zeroButt;
-        Button doublezeroButt;
-        Button dotButt;
-        Button clearButt;
-        Button convertButton;
-
-        // Buttons ID fields
-        oneButt = unitConversionView.findViewById(R.id.one);
-        twobutt = unitConversionView.findViewById(R.id.two);
-        threeButt = unitConversionView.findViewById(R.id.three);
-        fourButt = unitConversionView.findViewById(R.id.four);
-        fiveButt = unitConversionView.findViewById(R.id.five);
-        sixButt = unitConversionView.findViewById(R.id.six);
-        sevenButton = unitConversionView.findViewById(R.id.seven);
-        eightButt = unitConversionView.findViewById(R.id.eight);
-        nineButt = unitConversionView.findViewById(R.id.nine);
-        zeroButt = unitConversionView.findViewById(R.id.zero);
-        doublezeroButt = unitConversionView.findViewById(R.id.doubleZero);
-        dotButt = unitConversionView.findViewById(R.id.dot);
-        clearButt = unitConversionView.findViewById(R.id.clear);
-        convertButton = unitConversionView.findViewById(R.id.convert);
-
-        // Setting up Button on click listeners
-        oneButt.setOnClickListener(this);
-        twobutt.setOnClickListener(this);
-        threeButt.setOnClickListener(this);
-        fourButt.setOnClickListener(this);
-        fiveButt.setOnClickListener(this);
-        sixButt.setOnClickListener(this);
-        sevenButton.setOnClickListener(this);
-        eightButt.setOnClickListener(this);
-        nineButt.setOnClickListener(this);
-        zeroButt.setOnClickListener(this);
-        doublezeroButt.setOnClickListener(this);
-        dotButt.setOnClickListener(this);
-        clearButt.setOnClickListener(this);
-        convertButton.setOnClickListener(this);
-
-        return unitConversionView;
-
-    }
-
-
-    /**
-     * Called to have the fragment instantiate its User view
-     *
-     * @param inflater           Object used to inflate any any views in the fragment
-     * @param container          This is the parent view that the fragments UI is attached to too
-     * @param savedInstanceState The fragment is being reconstructed from a previous saved state
-     * @return Returns the inflated view
-     */
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        this.inflater = inflater;
-        this.container = container;
-
-
-        return initialiseUserInterface();
-    }
-
-    /**
-     * Overriden to handle the switching between orientations
-     *
-     * @param newConfig     This is the new configuration for the layout
-     */
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        System.out.println("Here");
-
-        String preserveStartUnits = startUnits.getText().toString();
-        String preserveEndUnits = endUnits.getText().toString();
-        String preserveUserInput = userInput.getText().toString();
-        String preserveConverted = converted_value.getText().toString();
-
-
-        View view = initialiseUserInterface();
-
-        startUnits.setText(preserveStartUnits);
-        endUnits.setText(preserveEndUnits);
-        userInput.setText(preserveUserInput);
-        converted_value.setText(preserveConverted);
-
-        container.postInvalidate();
-        container.addView(view);
-
-    }
-
-
-    /**
-     * Method to update the TextViews with the units category and units selection for conversion and to
-     * set the "conversion_selected" to the corresponding calculation
-     *
-     * @param units  This is the conversion that was selected by the user in the unit Selection fragment
-     */
-    public void update(String units) {
-
-        try{
-            if (units.equals(conversion_units[1])) {
-
-                startUnits.setText(R.string.meter);
-                endUnits.setText(R.string.yard);
-
-                userInput.setText(getText(R.string.enter_value));
-                converted_value.setText(R.string.waiting);
-
-                conversion_selected = 1;
-            } else if (units.equals(conversion_units[2])) {
-
-                startUnits.setText(R.string.mile);
-                endUnits.setText(R.string.yard);
-
-                userInput.setText(getText(R.string.enter_value));
-                converted_value.setText(R.string.waiting);
-
-                conversion_selected = 2;
-            }else if (units.equals(conversion_units[3])) {
-
-                startUnits.setText(R.string.gram);
-                endUnits.setText(R.string.ounce);
-
-                userInput.setText(getText(R.string.enter_value));
-                converted_value.setText(R.string.waiting);
-
-                conversion_selected = 3;
-            } else if (units.equals(conversion_units[4])){
-
-                startUnits.setText(R.string.kilogram);
-                endUnits.setText(R.string.pound);
-
-                userInput.setText(getText(R.string.enter_value));
-                converted_value.setText(R.string.waiting);
-
-                conversion_selected = 4;
-
-            } else {
-
-                startUnits.setText(R.string.default_selection);
-                endUnits.setText(R.string.default_selection);
-
-                userInput.setText(getText(R.string.enter_value));
-                converted_value.setText(R.string.waiting);
-
-                conversion_selected = 0;
-            }
-        }catch (NullPointerException e){
-            startUnits.setText(R.string.default_selection);
-            endUnits.setText(R.string.default_selection);
-
-            userInput.setText(getText(R.string.enter_value));
-            converted_value.setText(R.string.waiting);
-
-            conversion_selected = 0;
-        }
-
-    }
-
-
-
-        /**
-         * To handle what happens when a button is clicked
-         *
-         * The if statement checks if this is the first button button click. This is done so that the program can decide
-         * whether or not the default text value needs to be set to the number or just appended onto the end.
-         *
-         * @param v  This is the view object of the fragment
-         */
-        @Override
-        public void onClick (View v){
-
-            switch (v.getId()) {
-
-                case R.id.one:
-                    if (notClicked) {
-                        userInput.setText("1");
-                        notClicked = false;
-                    } else {
-                        userInput.append("1");
-                    }
-
-                    break;
-
-                case R.id.two:
-                    if (notClicked) {
-                        userInput.setText("2");
-                        notClicked = false;
-                    } else {
-                        userInput.append("2");
-                    }
-
-                    break;
-
-                case R.id.three:
-                    if (notClicked) {
-                        userInput.setText("3");
-                        notClicked = false;
-                    } else {
-                        userInput.append("3");
-                    }
-
-                    break;
-
-                case R.id.four:
-                    if (notClicked) {
-                        userInput.setText("4");
-                        notClicked = false;
-                    } else {
-                        userInput.append("4");
-                    }
-
-                    break;
-
-                case R.id.five:
-                    if (notClicked) {
-                        userInput.setText("5");
-                        notClicked = false;
-                    } else {
-                        userInput.append("5");
-                    }
-
-                    break;
-
-                case R.id.six:
-                    if (notClicked) {
-                        userInput.setText("6");
-                        notClicked = false;
-                    } else {
-                        userInput.append("6");
-                    }
-
-                    break;
-
-                case R.id.seven:
-                    if (notClicked) {
-                        userInput.setText("7");
-                        notClicked = false;
-                    } else {
-                        userInput.append("7");
-                    }
-
-                    break;
-
-                case R.id.eight:
-                    if (notClicked) {
-                        userInput.setText("8");
-                        notClicked = false;
-                    } else {
-                        userInput.append("8");
-                    }
-
-                    break;
-
-                case R.id.nine:
-                    if (notClicked) {
-                        userInput.setText("9");
-                        notClicked = false;
-                    } else {
-                        userInput.append("9");
-                    }
-
-                    break;
-
-                case R.id.zero:
-                    if (notClicked) {
-                        toastZero.show(); // Informing user to not start a number with zero
-                    } else {
-                        userInput.append("0");
-                    }
-
-                    break;
-
-                case R.id.dot:
-                    if (notClicked) {
-                        userInput.setText(".");
-                    } else {
-                        userInput.append(".");
-                    }
-
-                    break;
-
-                case R.id.doubleZero:
-                    if (notClicked) {
-                        toastZero.show(); // Informing user to not start a number with zero
-                    } else {
-                        userInput.append("00");
-                    }
-
-                    break;
-
-                case R.id.clear: // Reset all input area and the conversion area back to default
-                    userInput.setText(getText(R.string.enter_value));
-                    converted_value.setText(R.string.waiting);
-
-                    notClicked = true;
-
-                    break;
-
-                case R.id.convert: // Call the conversion method to carry out the required calculation
-
-                    conversion(conversion_selected);
-
-                    notClicked = true;
-
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-
-        /**
-         * Method to handle the conversion calculations.
-         *
-         * @param conversion_num    This number relates to the set conversion type the user wants to conduct
-         */
-        @SuppressLint("DefaultLocale")
-        public void conversion (int unit_num){
-
-            String input = userInput.getText().toString();
-
-
-            if (unit_num == 0) {
-                toastNoConversionSelected.show(); // If 0 user has not selected a conversion type, output a toast warning
-            } else if (input.equals(context.getString(R.string.enter_value)) || input.equals(context.getString(R.string.empty_string))) {
-
-                toastNoValueEntered.show(); // If entry field empty or default text, user has not input any value, output toast warning
-            } else {
-                double enteredValue = Double.parseDouble(input);
-                double converted;
-                if (unit_num == 3) {
-                    converted = (enteredValue / GRAMS_TO_OUNCES); // Converting from Grams to Ounces
-
-                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
-
-                } else if (unit_num == 4) {
-                    converted = (enteredValue * KILOGRAMS_TO_POUNDS); // Converting from Kilograms to Pounds
-
-                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
-
-                } else if (unit_num == 1) {
-                    converted = (enteredValue * METERS_TO_YARDS); // Converting from Meters to Yards
-
-                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
-
-                } else if (unit_num == 2) {
-                    converted = (enteredValue * MILES_TO_YARDS); // Converting from Miles to Yards
-
-                    converted_value.setText(String.valueOf(String.format("%.2f", converted)));
-                }
-
-            }
-
-        }
-}
-
+package uk.ac.stir.cs.unit_converter;import android.content.Context;import android.content.res.Configuration;import android.os.Bundle;import android.support.v4.app.Fragment;import android.view.LayoutInflater;import android.view.View;import android.view.ViewGroup;import android.widget.Button;import android.widget.EditText;import android.widget.TextView;import android.widget.Toast;public class UnitConverterFragment extends Fragment implements View.OnClickListener {    // -------- Conversion values -------------- //    // Distance    private final double METERS_YARDS_CONVERSION = 1.09361;    private final double MILES_YARDS_CONVERSION = 1760;    private final double MILES_METERS_CONVERSION = 1609.344;    // Weight    private final double GRAMS_OUNCES_CONVERSION = 28.35;    private final double KILOGRAMS_POUNDS_CONVERSION = 2.205;    private final double KILOGRAMS_GRAM_CONVERSION = 1000;    private final double GRAM_POUND_CONVERSION = 453.592;    private final double KILOGRAM_OUNCES_CONVERSION = 35.274;    // Speed    private final double MILESPERHOUR_METERSPERSEC_CONVERSION = 2.237;    private final double KILOPERHOUR_METERSPERSEC_CONVERSION = 3.6;    private final double KILOPERHOUR_MILESPERHOUR_CONVERSION = 1.609;    // User interface elements    private TextView startUnits, endUnits, converted_value;    private EditText userInput;    // Variable to keep track of what conversion was selected    private int category_selected;    // Layout inflaters and container    private LayoutInflater inflater;    private ViewGroup container;    // flag to detect whether the default text needs to be removed before appending numbers    private boolean notClicked = true;    // Conversions list    private String[] categories = {"Weight", "Distance", "Speed"};    private String[] weights = {"Grams", "Ounces", "Kilograms", "Pounds"};    private String[] distances = {"Miles", "Meters", "Yards"};    private String[] speeds = {"Miles per Hour", "Meters per Second", "Kilometers per Hour"};    // Toast warnings    private Context context;    private Toast toastZero;    private Toast toastNoConversionSelected;    private Toast toastNoValueEntered;    /**     * Method to initialise the user view     *     * @return      The view     */    public View initialiseUserInterface(){        View unitConversionView;        // Find out what orientation the users device is in        int orientation = getActivity().getResources().getConfiguration().orientation;        // decide what layout to use based on the previously found orientation        if (orientation == Configuration.ORIENTATION_PORTRAIT){            //inflate the layout for the fragment            unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment, container, false);        }else{            unitConversionView = inflater.inflate(R.layout.unit_conversion_fragment_horizontal, container, false);        }        // Toast warnings        context = unitConversionView.getContext();        toastZero = Toast.makeText(context, getString(R.string.zero_warning), Toast.LENGTH_SHORT);        toastNoConversionSelected = Toast.makeText(context, getString(R.string.conversion_not_selected_warning), Toast.LENGTH_SHORT);        toastNoValueEntered = Toast.makeText(context, getString(R.string.no_value_entered_warning), Toast.LENGTH_SHORT);        // TextViews fields        startUnits = unitConversionView.findViewById(R.id.tv_startUnits);        endUnits = unitConversionView.findViewById(R.id.tv_endUnits);        converted_value = unitConversionView.findViewById(R.id.tv_convertedValue);        // EditText fields        userInput = unitConversionView.findViewById(R.id.entryValue);        // Buttons        Button oneButt;        Button twobutt;        Button threeButt;        Button fourButt;        Button fiveButt;        Button sixButt;        Button sevenButton;        Button eightButt;        Button nineButt;        Button zeroButt;        Button doublezeroButt;        Button dotButt;        Button clearButt;        Button convertButton;        // Buttons ID fields        oneButt = unitConversionView.findViewById(R.id.one);        twobutt = unitConversionView.findViewById(R.id.two);        threeButt = unitConversionView.findViewById(R.id.three);        fourButt = unitConversionView.findViewById(R.id.four);        fiveButt = unitConversionView.findViewById(R.id.five);        sixButt = unitConversionView.findViewById(R.id.six);        sevenButton = unitConversionView.findViewById(R.id.seven);        eightButt = unitConversionView.findViewById(R.id.eight);        nineButt = unitConversionView.findViewById(R.id.nine);        zeroButt = unitConversionView.findViewById(R.id.zero);        doublezeroButt = unitConversionView.findViewById(R.id.doubleZero);        dotButt = unitConversionView.findViewById(R.id.dot);        clearButt = unitConversionView.findViewById(R.id.clear);        convertButton = unitConversionView.findViewById(R.id.convert);        // Setting up Button on click listeners        oneButt.setOnClickListener(this);        twobutt.setOnClickListener(this);        threeButt.setOnClickListener(this);        fourButt.setOnClickListener(this);        fiveButt.setOnClickListener(this);        sixButt.setOnClickListener(this);        sevenButton.setOnClickListener(this);        eightButt.setOnClickListener(this);        nineButt.setOnClickListener(this);        zeroButt.setOnClickListener(this);        doublezeroButt.setOnClickListener(this);        dotButt.setOnClickListener(this);        clearButt.setOnClickListener(this);        convertButton.setOnClickListener(this);        return unitConversionView;    }    /**     * Called to have the fragment instantiate its User view     *     * @param inflater           Object used to inflate any any views in the fragment     * @param container          This is the parent view that the fragments UI is attached to too     * @param savedInstanceState The fragment is being reconstructed from a previous saved state     * @return Returns the inflated view     */    @Override    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {        this.inflater = inflater;        this.container = container;        return initialiseUserInterface();    }    /**     * Overriden to handle the switching between orientations     *     * @param newConfig     This is the new configuration for the layout     */    @Override    public void onConfigurationChanged(Configuration newConfig) {        super.onConfigurationChanged(null);        // Storing the contents before the new view is made        String preserveStartUnits = startUnits.getText().toString();        String preserveEndUnits = endUnits.getText().toString();        String preserveUserInput = userInput.getText().toString();        String preserveConverted = converted_value.getText().toString();        // Make the new view        View view = initialiseUserInterface();        // Remove the old view from the container        container.postInvalidate();        // Add the new view to the container        container.addView(view);        // Reset the textViews and editTexts to their previous values        //startUnits.setText(preserveStartUnits);        //endUnits.setText(preserveEndUnits);        //userInput.setText(preserveUserInput);        //converted_value.setText(preserveConverted);    }    /**     * Method which saves the variables when the orientation of the device is changed     *     * @param outState  This is the bundle to add the data too     */    @Override    public void onSaveInstanceState(Bundle outState){        System.out.println("Storing data");        super.onSaveInstanceState(outState);        outState.putString("startUnits", startUnits.getText().toString());        outState.putString("endUnits", endUnits.getText().toString());        outState.putString("input", userInput.getText().toString());        outState.putString("converted", converted_value.getText().toString());    }    /**     * Method to retrieve the saved data from a change in state     * This data is then displayed back to the View in the required fields     *     * @param savedInstanceState    This is the bundle where the data was saved     */    @Override    public void onActivityCreated(Bundle savedInstanceState){        super.onActivityCreated(savedInstanceState);        if(savedInstanceState != null){            System.out.println("Filling text");            startUnits.setText(savedInstanceState.getString("startUnits"));            System.out.println(savedInstanceState.getString("startUnits"));            endUnits.setText(savedInstanceState.getString("endUnits"));            userInput.setText(savedInstanceState.getString("input"));            converted_value.setText(savedInstanceState.getString("converted"));        }    }    /**     * Method to update the TextViews with the units category and units selection for conversion and to     * set the "conversion_selected" to the corresponding calculation     *     * @param catSelected   This is the category of the units selected     * @param firstUnits    This is the Unit the user wants to convert form     * @param secondUnits   This is the Unit the user wants to convert too     */    public void update(String catSelected, String firstUnit, String secondUnit) {        try{            if(catSelected.equals(categories[0])){                category_selected = 1;            }else if( catSelected.equals(categories[1])){                category_selected = 2;            }else if(catSelected.equals(categories[2])){                category_selected = 3;            }else{                category_selected = 0;            }            startUnits.setText(firstUnit);            endUnits.setText(secondUnit);            userInput.setText(getText(R.string.enter_value));            converted_value.setText(R.string.waiting);        }catch (NullPointerException e){            startUnits.setText(R.string.default_selection);            endUnits.setText(R.string.default_selection);            userInput.setText(getText(R.string.enter_value));            converted_value.setText(R.string.waiting);            category_selected = 0;        }    }        /**         * To handle what happens when a button is clicked.         *         * The if statement checks if this is the first button button click. This is done so that the program can decide         * whether or not the default text value needs to be set to the number or just appended onto the end.         *         * @param v  This is the view object of the fragment         */        @Override        public void onClick (View v){            switch (v.getId()) {                case R.id.one:                    if (notClicked) {                        userInput.setText("1");                        notClicked = false;                    } else {                        userInput.append("1");                    }                    break;                case R.id.two:                    if (notClicked) {                        userInput.setText("2");                        notClicked = false;                    } else {                        userInput.append("2");                    }                    break;                case R.id.three:                    if (notClicked) {                        userInput.setText("3");                        notClicked = false;                    } else {                        userInput.append("3");                    }                    break;                case R.id.four:                    if (notClicked) {                        userInput.setText("4");                        notClicked = false;                    } else {                        userInput.append("4");                    }                    break;                case R.id.five:                    if (notClicked) {                        userInput.setText("5");                        notClicked = false;                    } else {                        userInput.append("5");                    }                    break;                case R.id.six:                    if (notClicked) {                        userInput.setText("6");                        notClicked = false;                    } else {                        userInput.append("6");                    }                    break;                case R.id.seven:                    if (notClicked) {                        userInput.setText("7");                        notClicked = false;                    } else {                        userInput.append("7");                    }                    break;                case R.id.eight:                    if (notClicked) {                        userInput.setText("8");                        notClicked = false;                    } else {                        userInput.append("8");                    }                    break;                case R.id.nine:                    if (notClicked) {                        userInput.setText("9");                        notClicked = false;                    } else {                        userInput.append("9");                    }                    break;                case R.id.zero:                    if (notClicked) {                        toastZero.show(); // Informing user to not start a number with zero                    } else {                        userInput.append("0");                    }                    break;                case R.id.dot:                    if (notClicked) {                        userInput.setText(".");                    } else {                        userInput.append(".");                    }                    break;                case R.id.doubleZero:                    if (notClicked) {                        toastZero.show(); // Informing user to not start a number with zero                    } else {                        userInput.append("00");                    }                    break;                case R.id.clear: // Reset all input area and the conversion area back to default                    userInput.setText(getText(R.string.enter_value));                    converted_value.setText(R.string.waiting);                    notClicked = true;                    break;                case R.id.convert: // Call the conversion method to carry out the required calculation                    conversion(category_selected);                    notClicked = true;                    break;                default:                    break;            }        }        /**         * Method to handle the conversion calculations.         *         * @param cat_num    This number relates to the set conversion type the user wants to conduct         */        public void conversion (int cat_num){            String input = userInput.getText().toString();            /**             * Category has not been selected             */            if (cat_num == 0) {                // If 0 user has not selected a category, output a toast warning                toastNoConversionSelected.show();            } else if (input.equals(context.getString(R.string.enter_value)) || input.equals(context.getString(R.string.empty_string))) {                // If entry field empty or default text, user has not input any value, output toast warning                toastNoValueEntered.show();            } else {                double enteredValue = Double.parseDouble(input);                double converted;                String startingUnits = startUnits.getText().toString();                String endingUnits = endUnits.getText().toString();                /**                 * Weight Conversion Calculations                 */                if (cat_num == 1) {                    if(startingUnits.equals(weights[0]) &&  endingUnits.equals(weights[1])){                        // Converting from Grams to Ounces                        converted = (enteredValue / GRAMS_OUNCES_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));// Round the result to two decimal places                    } else if (startingUnits.equals(weights[2]) && endingUnits.equals(weights[3])) {                        // Converting from Kilograms to Pounds                        converted = (enteredValue * KILOGRAMS_POUNDS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));// Round the result to two decimal places                    }else if(startingUnits.equals(weights[1]) && endingUnits.equals(weights[0])){                        // Converting from Ounces to Grams                        converted = (enteredValue * GRAMS_OUNCES_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(weights[3]) && endingUnits.equals(weights[2])){                        // Converting form Pound to Kilograms                        converted = (enteredValue / KILOGRAMS_POUNDS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if (startingUnits.equals(weights[0]) && endingUnits.equals(weights[3])){                        // Converting from Grams to Pounds                        converted = (enteredValue / GRAM_POUND_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(weights[3]) && endingUnits.equals(weights[0])){                        // Converting from Pounds to Grams                        converted = (enteredValue * GRAM_POUND_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(weights[1]) && endingUnits.equals(weights[2])){                        // Converting form Ounces to Kilograms                        converted = (enteredValue / KILOGRAM_OUNCES_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(weights[2]) && endingUnits.equals(weights[1])){                        // Converting from Kilograms to Ounces                        converted = (enteredValue * KILOGRAM_OUNCES_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(weights[0]) && endingUnits.equals(weights[2])){                        // Converting from Grams to Kilograms                        converted = (enteredValue / KILOGRAMS_GRAM_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(weights[2]) && endingUnits.equals(weights[0])){                        // Converting form Kilograms to Grams                        converted = (enteredValue * KILOGRAMS_GRAM_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }                    /**                     * Distance Conversions Calculations                     */                } else if(cat_num == 2) {                    if (startingUnits.equals(distances[0]) && endingUnits.equals(distances[2])) {                        // Converting from Miles to Yards                        converted = (enteredValue * MILES_YARDS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));// Round the result to two decimal places                    } else if (startingUnits.equals(distances[1]) && endingUnits.equals(distances[2])) {                        // Converting from Meters to Yards                        converted = (enteredValue * METERS_YARDS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));// Round the result to two decimal places                    }else if(startingUnits.equals(distances[2]) && endingUnits.equals(distances[0])){                        //Converting from Yards to Miles                        converted = (enteredValue / MILES_YARDS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(distances[2]) && endingUnits.equals(distances[1])){                        // Converting Yards to Meters                        converted = (enteredValue / METERS_YARDS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(distances[0]) && endingUnits.equals(distances[1])){                        // Converting from Miles to Meters                        converted = (enteredValue * MILES_METERS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(distances[1]) && endingUnits.equals(distances[0])){                        // Converting from Meters to Miles                        converted = (enteredValue / MILES_METERS_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }                    /**                     * Speed Conversion Calculations                     */                }else if(cat_num == 3){                    if (startingUnits.equals(speeds[0]) && endingUnits.equals(speeds[2])){                        // Converting from Miles per Hour to Kilometers per hour                        converted = (enteredValue * KILOPERHOUR_MILESPERHOUR_CONVERSION);                        converted_value.setText(String.valueOf(String.format("%.2f", converted))); // Round result to two decimal places                    }else if(startingUnits.equals(speeds[2]) && endingUnits.equals(speeds[1])){                        // Converting from Kilometers per hour to Meters per Second                        converted = (enteredValue / KILOPERHOUR_METERSPERSEC_CONVERSION);                        converted_value.setText(String.valueOf(String.format("%.2f", converted))); // Round result to two decimal places                    }else if(startingUnits.equals(speeds[0]) && endingUnits.equals(speeds[1])){                        // Converting from Miles per hour to Meters per Second                        converted = (enteredValue / MILESPERHOUR_METERSPERSEC_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(speeds[2]) && endingUnits.equals(speeds[0])){                        // Converting from Kilometers per hour to Miles per hour                        converted = (enteredValue / KILOPERHOUR_MILESPERHOUR_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if(startingUnits.equals(speeds[1]) && endingUnits.equals(speeds[2])){                        // Converting from Meters per second to Kilometers per Hour                        converted = (enteredValue * KILOPERHOUR_METERSPERSEC_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }else if (startingUnits.equals(speeds[1]) && endingUnits.equals(speeds[0])){                        // Converting from Meters per second to Miles per Hour                        converted = (enteredValue * MILESPERHOUR_METERSPERSEC_CONVERSION);                        // Round result to two decimal places and output                        converted_value.setText(String.valueOf(String.format("%.2f", converted)));                    }                }            }        }}

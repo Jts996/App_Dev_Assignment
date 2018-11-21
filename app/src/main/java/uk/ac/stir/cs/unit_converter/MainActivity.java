@@ -2,8 +2,6 @@ package uk.ac.stir.cs.unit_converter;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
                 UnitSelectionFragment selectionFragment = (UnitSelectionFragment) adapter.getFragment(0, viewPager);
                 UnitConverterFragment converterFragment = (UnitConverterFragment) adapter.getFragment(1, viewPager);
 
-                String selectionUnits = selectionFragment.getSelectedUnits();
+                String category = selectionFragment.getCategory();
+                String firstUnits = selectionFragment.getFirstUnits();
+                String secondUnits = selectionFragment.getSecondUnit();
 
-                converterFragment.update(selectionUnits);
+                converterFragment.update(category, firstUnits, secondUnits);
 
             }
 

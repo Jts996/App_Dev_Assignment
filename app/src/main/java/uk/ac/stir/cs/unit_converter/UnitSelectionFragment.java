@@ -16,7 +16,8 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
 
     // User interface elements
     private Spinner spinnerCatergories;
-    private Spinner spinnerUnits;
+    private Spinner spinnerFirstUnits;
+    private Spinner spinnerSecondUnits;
     private Button selectionButton;
 
     // Position of selection in categories
@@ -28,7 +29,9 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
 
 
     // Conversion selected by user
-    private String selectedUnits;
+    private String category;
+    private String firstUnits;
+    private String secondUnits;
 
 
     /**
@@ -53,7 +56,8 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
 
         selectionButton = unitSelectionView.findViewById(R.id.select);
         selectionButton.setOnClickListener(this);
-        spinnerUnits = unitSelectionView.findViewById(R.id.unit_spinner);
+        spinnerFirstUnits = unitSelectionView.findViewById(R.id.first_unit_spinner);
+        spinnerSecondUnits = unitSelectionView.findViewById(R.id.second_unit_spinner);
         spinnerCatergories = unitSelectionView.findViewById(R.id.category_spinner);
         spinnerCatergories.setOnItemSelectedListener(this);
 
@@ -78,37 +82,76 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
         this.inflater = inflater;
         this.container = container;
 
-
         return initialiseUserInterface();
     }
 
     /**
-     * Overriden to handle the switching between orientations
+     * Overridden to handle the switching between orientations
      *
      * @param newConfig     This is the new configuration for the layout
      */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+
+        super.onConfigurationChanged(null);
 
 
-        int preserveSpinnerCategories = spinnerCatergories.getSelectedItemPosition();
-        int preserveSpinnerUnits = spinnerUnits.getSelectedItemPosition();
 
+        // Make the new view
         View view = initialiseUserInterface();
 
-        spinnerCatergories.setSelection(preserveSpinnerCategories);
-        spinnerUnits.setSelection(preserveSpinnerUnits);
 
+        // Remove the old view from the container
         container.postInvalidate();
+
+        // Add the new view to the container
         container.addView(view);
+
 
     }
 
-        /**
-         * This method is used to fill the category spinner object with the desired strings.
-         *
-         */
+    /**
+     * Method which saves the variables when the orientation of the device is changed
+     *
+     * @param outState  This is the bundle to add the data too
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        System.out.println("Storing data");
+
+        // Storing the contents before the new view is made
+        outState.putInt("category", spinnerCatergories.getSelectedItemPosition());
+        outState.putInt("units", spinnerFirstUnits.getSelectedItemPosition());
+
+    }
+
+
+    /**
+     * Method to retrieve the saved data from a change in state
+     * This data is then displayed back to the View in the required fields
+     *
+     * @param savedInstanceState    This is the bundle where the data was saved
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null){
+            System.out.println("Filling text");
+
+            spinnerCatergories.setSelection(savedInstanceState.getInt("category"));
+            spinnerFirstUnits.setSelection(savedInstanceState.getInt("units"));
+        }
+
+    }
+
+    /**
+     * This method is used to fill the category spinner object with the desired strings.
+     *
+     */
     public void spinnerCategory() {
 
         // Create an ArrayAdapter using the string array and the spinner
@@ -135,9 +178,12 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
         }else if (cat.equals("Weight")) {
             catPos = 1;
             populateUnits();
-        } else if (cat.equals("Length")) {
+        } else if (cat.equals("Distance")) {
 
             catPos = 2;
+            populateUnits();
+        }else if(cat.equals("Speed")){
+            catPos = 3;
             populateUnits();
         }
     }
@@ -151,20 +197,25 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         //Getting the string of the selected conversion details
-        try{
-            String selectedUnits = spinnerUnits.getSelectedItem().toString();
+        try {
+            String selectedCategory = spinnerCatergories.getSelectedItem().toString();
+            String selectedFirstUnits = spinnerFirstUnits.getSelectedItem().toString();
+            String selectedSecondUnits = spinnerSecondUnits.getSelectedItem().toString();
 
-            if(selectedUnits.equals("Select")){
+            if (selectedFirstUnits.equals("Select") || selectedSecondUnits.equals("Select")) {
 
                 Toast noUnitSelection = Toast.makeText(getContext(), "You have not made a Unit selection", Toast.LENGTH_SHORT);
                 noUnitSelection.show();
 
+            }else if(selectedFirstUnits.equals(selectedSecondUnits)){
+                Toast sameUnits = Toast.makeText(getContext(), "Cannot convert between the same units", Toast.LENGTH_SHORT);
+                sameUnits.show();
             }else{
 
                 Toast confirmSelection = Toast.makeText(getContext(), "Selection has been confirmed, moved to unit converter to convert", Toast.LENGTH_SHORT);
                 confirmSelection.show();
 
-                setSelected(selectedUnits);
+                setSelected(selectedCategory, selectedFirstUnits, selectedSecondUnits);
 
             }
         }catch (NullPointerException e){
@@ -177,23 +228,49 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     }
 
     /**
-     * Get the conversion units selected by the user
+     * Get the unit selected by the user to convert from
      *
      * @return Return this selection
      */
-    public String getSelectedUnits() {
+    public String getCategory() {
 
-        return selectedUnits;
+        return category;
     }
+
+
+    /**
+     * Get the unit selected by the user to convert from
+     *
+     * @return Return this selection
+     */
+    public String getFirstUnits() {
+
+        return firstUnits;
+    }
+
+    /**
+     * Get the unit selected by the user to convert too
+     *
+     * @return Return this selection
+     */
+    public String getSecondUnit(){
+
+        return secondUnits;
+    }
+
 
     /**
      * Set the conversion selected by the user
      *
-     * @param selectedUnits    The Units selected by user
+     * @param category      The category of the units
+     * @param firstUnits    The converting from Units selected by user
+     * @param secondUnits   The converting too Units selected by the user
      */
-    public void setSelected(String selectedUnits) {
+    public void setSelected(String category, String firstUnits, String secondUnits) {
 
-        this.selectedUnits = selectedUnits;
+        this.category = category;
+        this.firstUnits = firstUnits;
+        this.secondUnits = secondUnits;
     }
 
 
@@ -204,7 +281,8 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     public void populateUnits() {
 
         if(catPos == 0){
-            spinnerUnits.setAdapter(null);
+            spinnerFirstUnits.setAdapter(null);
+            spinnerSecondUnits.setAdapter(null);
 
         }else if (catPos == 1) {
             // Create an ArrayAdapter using the string array and the spinner
@@ -213,16 +291,29 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
             // Specify the layout to use when the list of choices appears
             adapterUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //Apply this adapter to the spinner
-            spinnerUnits.setAdapter(adapterUnit);
+            spinnerFirstUnits.setAdapter(adapterUnit);
+            spinnerSecondUnits.setAdapter(adapterUnit);
 
         } else if (catPos == 2) {
             // Create an ArrayAdapter using the string array and the spinner
             ArrayAdapter<CharSequence> adapterUnit = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-            R.array.length_units_array, android.R.layout.simple_spinner_item);
+            R.array.distance_units_array, android.R.layout.simple_spinner_item);
             // Specify the layout to use when the list of choices appears
             adapterUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //Apply this adapter to the spinner
-            spinnerUnits.setAdapter(adapterUnit);
+            spinnerFirstUnits.setAdapter(adapterUnit);
+            spinnerSecondUnits.setAdapter(adapterUnit);
+
+        }else if (catPos == 3){
+            // Create an ArrayAdapter using the string array and the spinner
+            ArrayAdapter<CharSequence> adapterUnit = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
+                    R.array.speed_units_array, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapterUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //Apply this adapter to the spinner
+            spinnerFirstUnits.setAdapter(adapterUnit);
+            spinnerSecondUnits.setAdapter(adapterUnit);
+
         }
 
     }

@@ -4,10 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.ViewGroup;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
 
@@ -43,6 +39,13 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         return mNumOfTabs;
     }
 
+    /**
+     * Method to start a new instance of the desired fragment
+     *
+     * @param index         The index of the fragment
+     * @param viewPager     This is the ViewPager used to display the fragment
+     * @return
+     */
     public Fragment getFragment(int index, ViewPager viewPager){
 
 
