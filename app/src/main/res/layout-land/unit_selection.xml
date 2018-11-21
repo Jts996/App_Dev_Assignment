@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal= "true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:orientation="horizontal">
 
         <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/category"
         android:layout_centerHorizontal= "true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/firstUnits"
         android:layout_centerHorizontal= "true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView

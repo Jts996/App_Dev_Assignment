@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class UnitSelectionFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     // User interface elements
-    private Spinner spinnerCatergories;
+    private Spinner spinnerCategories;
     private Spinner spinnerFirstUnits;
     private Spinner spinnerSecondUnits;
     private Button selectionButton;
@@ -58,8 +58,8 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
         selectionButton.setOnClickListener(this);
         spinnerFirstUnits = unitSelectionView.findViewById(R.id.first_unit_spinner);
         spinnerSecondUnits = unitSelectionView.findViewById(R.id.second_unit_spinner);
-        spinnerCatergories = unitSelectionView.findViewById(R.id.category_spinner);
-        spinnerCatergories.setOnItemSelectedListener(this);
+        spinnerCategories = unitSelectionView.findViewById(R.id.category_spinner);
+        spinnerCategories.setOnItemSelectedListener(this);
 
         spinnerCategory();
 
@@ -122,7 +122,7 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
         System.out.println("Storing data");
 
         // Storing the contents before the new view is made
-        outState.putInt("category", spinnerCatergories.getSelectedItemPosition());
+        outState.putInt("category", spinnerCategories.getSelectedItemPosition());
         outState.putInt("units", spinnerFirstUnits.getSelectedItemPosition());
 
     }
@@ -142,7 +142,7 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
         if(savedInstanceState != null){
             System.out.println("Filling text");
 
-            spinnerCatergories.setSelection(savedInstanceState.getInt("category"));
+            spinnerCategories.setSelection(savedInstanceState.getInt("category"));
             spinnerFirstUnits.setSelection(savedInstanceState.getInt("units"));
         }
 
@@ -162,7 +162,7 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
 
 
         // Apply this adapter to the spinner
-        spinnerCatergories.setAdapter(adapterCategory);
+        spinnerCategories.setAdapter(adapterCategory);
 
     }
 
@@ -198,7 +198,7 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         //Getting the string of the selected conversion details
         try {
-            String selectedCategory = spinnerCatergories.getSelectedItem().toString();
+            String selectedCategory = spinnerCategories.getSelectedItem().toString();
             String selectedFirstUnits = spinnerFirstUnits.getSelectedItem().toString();
             String selectedSecondUnits = spinnerSecondUnits.getSelectedItem().toString();
 
@@ -281,7 +281,9 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
     public void populateUnits() {
 
         if(catPos == 0){
+            spinnerFirstUnits.setEnabled(false);
             spinnerFirstUnits.setAdapter(null);
+            spinnerSecondUnits.setEnabled(false);
             spinnerSecondUnits.setAdapter(null);
 
         }else if (catPos == 1) {
@@ -292,7 +294,9 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
             adapterUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //Apply this adapter to the spinner
             spinnerFirstUnits.setAdapter(adapterUnit);
+            spinnerFirstUnits.setEnabled(true);
             spinnerSecondUnits.setAdapter(adapterUnit);
+            spinnerSecondUnits.setEnabled(true);
 
         } else if (catPos == 2) {
             // Create an ArrayAdapter using the string array and the spinner
@@ -302,7 +306,9 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
             adapterUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //Apply this adapter to the spinner
             spinnerFirstUnits.setAdapter(adapterUnit);
+            spinnerFirstUnits.setEnabled(true);
             spinnerSecondUnits.setAdapter(adapterUnit);
+            spinnerSecondUnits.setEnabled(true);
 
         }else if (catPos == 3){
             // Create an ArrayAdapter using the string array and the spinner
@@ -312,7 +318,9 @@ public class UnitSelectionFragment extends Fragment implements View.OnClickListe
             adapterUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             //Apply this adapter to the spinner
             spinnerFirstUnits.setAdapter(adapterUnit);
+            spinnerFirstUnits.setEnabled(true);
             spinnerSecondUnits.setAdapter(adapterUnit);
+            spinnerSecondUnits.setEnabled(true);
 
         }
 
