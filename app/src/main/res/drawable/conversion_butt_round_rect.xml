@@ -2,9 +2,7 @@
 
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-     android:shape="rectangle">
-
-    <solid android:color="@color/conversion_butt_BG"/>
+     android:shape="rectangle"><solid android:color="@color/conversion_butt_BG"/>
 
     <corners
         android:radius="10dp"/>

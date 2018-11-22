@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <include layout="@layout/fragment_layout_conversion" />
+    <include layout="@layout/fragment_layout_conversion_horizontal" />
 
 </FrameLayout>
